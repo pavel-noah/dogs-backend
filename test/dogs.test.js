@@ -71,4 +71,18 @@ describe('app routes', () => {
         }]);
       });
   });
+
+  it('gets a dog by name with GET/:name', () => {
+    return request(app)
+      .get('/api/v1/dogs/Balloon')
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: 'Balloon',
+          age: 6,
+          weight: 34,
+          __v: 0
+        });
+      });
+  });
 });
