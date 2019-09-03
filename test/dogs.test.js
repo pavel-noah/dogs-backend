@@ -15,8 +15,9 @@ describe('app routes', () => {
     return mongoose.connection.dropDatabase();
   });
 
+  let dog1 = {};
   beforeEach(async() => {
-    JSON.parse(JSON.stringify(await Dog.create({
+    dog1 = JSON.parse(JSON.stringify(await Dog.create({
       name: 'Balloon',
       age: 6,
       weight: 34
@@ -81,6 +82,22 @@ describe('app routes', () => {
           name: 'Balloon',
           age: 6,
           weight: 34,
+          __v: 0
+        });
+      });
+  });
+
+  it('deletes a dog by id with DELETE/:id', () => {
+    return request(app)
+      .delete(`/api/v1/dogs/${dog1._id}`)
+      .then(res => {
+        console.log(dog1);
+        console.log(res.body);
+        expect(res.body._id).toEqual({
+          _id: dog1._id,
+          name: dog1.name,
+          age: dog1.age,
+          weight: dog1.weight,
           __v: 0
         });
       });
