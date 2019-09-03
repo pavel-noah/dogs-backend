@@ -33,6 +33,25 @@ describe('app routes', () => {
     return mongoose.connection.close();
   });
 
+  it('creates a new dog with POST route', () => {
+    return request(app)
+      .post('/api/v1/dogs')
+      .send({
+        name: 'Strelka',
+        age: 6,
+        weight: 58
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: 'Strelka',
+          age: 6,
+          weight: 58,
+          __v: 0
+        });
+      });
+  });
+
   it('gets all the dogs with GET route', () => {
     return request(app)
       .get('/api/v1/dogs')
